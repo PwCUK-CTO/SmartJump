@@ -22,7 +22,7 @@ In addition, it allows a user to use the symbols `[` and `]` to dereference memo
 The supported type of values that can be used in the jumpask window are:  
     `here` and `here()` - these resolve to the current result of `idc.here()`  
     `main` and `sub_123456` - you can still jump by names/labels in the binary  
-    `12ab34` and `0x12ab34` - all numbers are interpreted as hexadecimal numbers and can either both preceded by `0x` or not. If a global name also matches a hexadecimal number pattern then the global name will take precedence  
+    `12ab34` and `0x12ab34` - all numbers are interpreted as hexadecimal numbers and can either be preceded by `0x` or not. If a global name also matches a hexadecimal number pattern then the global name will take precedence  
     `eax`, `ebx`, ... , `rax`, ... - 32 and 64 bit registers for x86 and x64 are supported. Using `eax` on and x64 binary will mask the lower 32 bits and return that value  
 
 All of these values can be used in combinations, a brief but inexhaustive list of examples is below:  
