@@ -1,8 +1,8 @@
 IDA Pro plugin to enhance the JumpAsk 'g' command
 
-######################
-Installation
-######################
+
+#Installation
+
 Copy the contents of the plugin folder into your IDA_DIR/plugin folder
 Edit IDA_DIR\cfg\idagui.cfg so that the line that has default text with:
     "JumpAsk"    = 'g'
@@ -14,9 +14,8 @@ To the line to give a full entry of:
     "JumpAsk"    = 0 // 'g'
 If you do not want to remember what the default value was.
 
-######################
-Usage
-######################
+#Usage
+
 SmartJump is designed to improve the 'g' keyboard shortcut in IDA, especially when using IDA to debug binaries. It allows a user to do basic mathematical operations '-', '+', '/', '*' on values and labels in the JumpAsk window.
 In addition, it allows a user to use the symbols '[' and ']' to dereference memory addresses and jump to the values contained at the address.
 
