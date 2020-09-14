@@ -1,3 +1,5 @@
+IDA Pro plugin to enhance the JumpAsk 'g' command
+
 ######################
 Installation
 ######################
