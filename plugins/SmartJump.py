@@ -1,5 +1,5 @@
 '''
-   Copyright 2020 PricewaterhouseCoopers LLP
+   Copyright 2023 PwCIL
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 '''
-#v1.0
 
 import idc, idaapi
 import SmartJump.lex as lex
 import SmartJump.yacc as yacc
+import re
 
 #utilities
 arch_size = 32
@@ -46,97 +46,97 @@ t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 
 def t_HERE(t):
-    r'(?i)here(\(\))?'
+    r'here(\(\))?'
     t.value = idc.here()
     return t
 
 def t_RAX(t):
-    r'(?i)rax'
+    r'rax'
     t.value = idaapi.get_reg_val("RAX")
     return t
 
 def t_RBX(t):
-    r'(?i)rbx'
+    r'rbx'
     t.value = idaapi.get_reg_val("RBX")
     return t
 
 def t_RCX(t):
-    r'(?i)rcx'
+    r'rcx'
     t.value = idaapi.get_reg_val("RCX")
     return t
 
 def t_RDX(t):
-    r'(?i)rdx'
+    r'rdx'
     t.value = idaapi.get_reg_val("RDX")
     return t
 
 def t_RIP(t):
-    r'(?i)rip'
+    r'rip'
     t.value = idaapi.get_reg_val("RIP")
     return t
 
 def t_RSI(t):
-    r'(?i)rsi'
+    r'rsi'
     t.value = idaapi.get_reg_val("RSI")
     return t
 
 def t_RDI(t):
-    r'(?i)rdi'
+    r'rdi'
     t.value = idaapi.get_reg_val("RDI")
     return t
 
 def t_RBP(t):
-    r'(?i)rbp'
+    r'rbp'
     t.value = idaapi.get_reg_val("RBP")
     return t
 
 def t_RSP(t):
-    r'(?i)rsp'
+    r'rsp'
     t.value = idaapi.get_reg_val("RSP")
     return t
 
 def t_R8(t):
-    r'(?i)r8'
+    r'r8'
     t.value = idaapi.get_reg_val("R8")
     return t
 
 def t_R9(t):
-    r'(?i)r9'
+    r'r9'
     t.value = idaapi.get_reg_val("R9")
     return t
 
 def t_R10(t):
-    r'(?i)r10'
+    r'r10'
     t.value = idaapi.get_reg_val("R10")
     return t
 
 def t_R11(t):
-    r'(?i)r11'
+    r'r11'
     t.value = idaapi.get_reg_val("R11")
     return t
 
 def t_R12(t):
-    r'(?i)r12'
+    r'r12'
     t.value = idaapi.get_reg_val("R12")
     return t
 
 def t_R13(t):
-    r'(?i)r13'
+    r'r13'
     t.value = idaapi.get_reg_val("R13")
     return t
 
 def t_R14(t):
-    r'(?i)r14'
+    r'r14'
     t.value = idaapi.get_reg_val("R14")
     return t
 
 def t_R15(t):
-    r'(?i)r15'
+    r'r15'
     t.value = idaapi.get_reg_val("R15")
     return t
 
 def t_EAX(t):
-    r'(?i)eax'
+    r'eax'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EAX")
     else:
@@ -144,7 +144,7 @@ def t_EAX(t):
     return t
 
 def t_EBX(t):
-    r'(?i)ebx'
+    r'ebx'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EBX")
     else:
@@ -152,7 +152,7 @@ def t_EBX(t):
     return t
 
 def t_ECX(t):
-    r'(?i)ecx'
+    r'ecx'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("ECX")
     else:
@@ -160,7 +160,7 @@ def t_ECX(t):
     return t
 
 def t_EDX(t):
-    r'(?i)edx'
+    r'edx'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EDX")
     else:
@@ -168,7 +168,7 @@ def t_EDX(t):
     return t
 
 def t_EIP(t):
-    r'(?i)eip'
+    r'eip'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EIP")
     else:
@@ -176,7 +176,7 @@ def t_EIP(t):
     return t
 
 def t_ESI(t):
-    r'(?i)esi'
+    r'esi'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("ESI")
     else:
@@ -184,7 +184,7 @@ def t_ESI(t):
     return t
 
 def t_EDI(t):
-    r'(?i)edi'
+    r'edi'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EDI")
     else:
@@ -192,7 +192,7 @@ def t_EDI(t):
     return t
 
 def t_EBP(t):
-    r'(?i)ebp'
+    r'ebp'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("EBP")
     else:
@@ -200,7 +200,7 @@ def t_EBP(t):
     return t
 
 def t_ESP(t):
-    r'(?i)esp'
+    r'esp'
     if arch_size == 32:
         t.value = idaapi.get_reg_val("ESP")
     else:
@@ -217,12 +217,12 @@ def t_NAME(t):
     return t
 
 def t_HEXADDR(t):
-    r'(?i)0x[0-9a-f]+'
+    r'0x[0-9a-f]+'
     t.value = int(t.value[2:], 16)
     return t
 
 def t_ADDR(t):
-    r'(?i)[0-9a-f]+'
+    r'[0-9a-f]+'
     t.value = int(t.value, 16)
     return t
 
@@ -236,7 +236,7 @@ def t_error(t):
     debug_out(f"Illegal character {t.value[0]!r}")
     t.lexer.skip(1)
 
-glob_lex = lex.lex()
+glob_lex = lex.lex(reflags=re.I)
 
 precedence = (
     ('left','PLUS','MINUS'),
@@ -315,7 +315,7 @@ class SmartJump_t(idaapi.plugin_t):
     flags = 0
     comment = "Smart IDA jumping"
     wanted_hotkey = 'g'
-    help = "Runs by replacing Go command when pressing g"
+    help = "Runs by replacing Go command when pressing G"
     wanted_name = "SmartJumper"
     lexer = None
     parser = None
